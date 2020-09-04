@@ -1,0 +1,8 @@
+C:\projets\AmazonProductReviewsScrapping\Application\bin\Debug\netcoreapp3.1\Application.deps.json
+C:\projets\AmazonProductReviewsScrapping\Application\bin\Debug\netcoreapp3.1\Application.dll
+C:\projets\AmazonProductReviewsScrapping\Application\bin\Debug\netcoreapp3.1\Application.pdb
+C:\projets\AmazonProductReviewsScrapping\Application\obj\Debug\netcoreapp3.1\Application.AssemblyInfoInputs.cache
+C:\projets\AmazonProductReviewsScrapping\Application\obj\Debug\netcoreapp3.1\Application.AssemblyInfo.cs
+C:\projets\AmazonProductReviewsScrapping\Application\obj\Debug\netcoreapp3.1\Application.csproj.CoreCompileInputs.cache
+C:\projets\AmazonProductReviewsScrapping\Application\obj\Debug\netcoreapp3.1\Application.dll
+C:\projets\AmazonProductReviewsScrapping\Application\obj\Debug\netcoreapp3.1\Application.pdb
