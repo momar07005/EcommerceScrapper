@@ -4,17 +4,13 @@ using System.Text;
 
 namespace Domain.Entities
 {
-    public class Request : Entity<Request>
+    public class BulkRequest : Entity<BulkRequest>
     {
-        public string ProductId { get; set; }
-
-        public uint NumberOfReviews { get; set; }
-
-        public Response Response { get; set; }
+        public List<Request> Requests { get; set; }
 
         public DateTime Date { get; set; }
 
-        protected override bool EqualsCore(Request obj)
+        protected override bool EqualsCore(BulkRequest obj)
         {
             throw new NotImplementedException();
         }
