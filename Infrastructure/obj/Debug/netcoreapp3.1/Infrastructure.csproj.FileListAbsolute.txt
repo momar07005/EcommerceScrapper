@@ -1,9 +1,0 @@
-C:\projets\AmazonProductReviewsScrapping\Infrastructure\bin\Debug\netcoreapp3.1\Infrastructure.deps.json
-C:\projets\AmazonProductReviewsScrapping\Infrastructure\bin\Debug\netcoreapp3.1\Infrastructure.dll
-C:\projets\AmazonProductReviewsScrapping\Infrastructure\bin\Debug\netcoreapp3.1\Infrastructure.pdb
-C:\projets\AmazonProductReviewsScrapping\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.csprojAssemblyReference.cache
-C:\projets\AmazonProductReviewsScrapping\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.AssemblyInfoInputs.cache
-C:\projets\AmazonProductReviewsScrapping\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.AssemblyInfo.cs
-C:\projets\AmazonProductReviewsScrapping\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.csproj.CoreCompileInputs.cache
-C:\projets\AmazonProductReviewsScrapping\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.dll
-C:\projets\AmazonProductReviewsScrapping\Infrastructure\obj\Debug\netcoreapp3.1\Infrastructure.pdb
