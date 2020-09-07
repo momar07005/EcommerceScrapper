@@ -1,3 +1,6 @@
+using Application.Services;
+using Domain.Repositories;
+using Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -20,12 +23,24 @@ namespace WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-            // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
+            services.AddControllers();
+            services.AddSingleton<IScrapper, AmazonScrapper>();
+            services.AddTransient<ICollectorService, CollectorService>();
+            services.AddSwaggerGen();
+
+            services.AddCors(options =>
             {
-                configuration.RootPath = "ClientApp/dist";
+                options.AddDefaultPolicy(
+                                  builder =>
+                                  {
+                                      builder.AllowAnyOrigin();
+                                  });
             });
+            //// In production, the Angular files will be served from this directory
+            //services.AddSpaStaticFiles(configuration =>
+            //{
+            //    configuration.RootPath = "ClientApp/dist";
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,32 +58,45 @@ namespace WebUI
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            if (!env.IsDevelopment())
-            {
-                app.UseSpaStaticFiles();
-            }
+            //app.UseStaticFiles();
+            //if (!env.IsDevelopment())
+            //{
+            //    app.UseSpaStaticFiles();
+            //}
 
             app.UseRouting();
 
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller}/{action=Index}/{id?}");
+            //});
+
+            app.UseCors();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
+            //app.UseSpa(spa =>
+            //{
+            //    // To learn more about options for serving an Angular SPA from ASP.NET Core,
+            //    // see https://go.microsoft.com/fwlink/?linkid=864501
 
-            app.UseSpa(spa =>
+            //    spa.Options.SourcePath = "ClientApp";
+
+            //    if (env.IsDevelopment())
+            //    {
+            //        spa.UseAngularCliServer(npmScript: "start");
+            //    }
+            //});
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProductReviews scrapping API V1");
             });
         }
     }
