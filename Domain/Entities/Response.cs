@@ -7,7 +7,7 @@ namespace Domain.Entities
 {
     public class Response : Entity<Response>
     {
-        public List<Review> Reviews { get; set; }
+        public List<Review> Reviews { get; set; } = new List<Review>();
 
         public ResponseStatusEnum ResponseStatus { get; set; }
 
