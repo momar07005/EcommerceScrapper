@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 using AngleSharp.Dom;
 using System.Linq;
+using Domain.Enumerations;
 
 namespace Infrastructure.Persistence.Repositories
 {
@@ -17,16 +18,12 @@ namespace Infrastructure.Persistence.Repositories
     {
         private readonly IConfiguration _configuration;
 
-        private IDocument _webPageDocument;
-
-        private Response _response = new Response();
-
         public AmazonScrapper(IConfiguration configuration)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
-        public async Task<string> Extract(string request)
+        public async Task<object> Extract(string request)
         {
             // Load default configuration
             var config = Configuration.Default.WithDefaultLoader();
@@ -35,22 +32,23 @@ namespace Infrastructure.Persistence.Repositories
             // This is where the HTTP request happens, returns <IDocument> that // we can query later
             var document = await context.OpenAsync(request);
             // Log the data to the console
-            _webPageDocument = document;
 
-            return document.DocumentElement.OuterHtml;
+            return document;
         }
 
         public async Task<Response> Get(Request request, uint pageNumber)
         {
             string httpRequest = ToHttpRequest(request, pageNumber);
-            string content = await Extract(httpRequest);
-            Response response = await Transform(content);
+            IDocument document = await Extract(httpRequest) as IDocument;
+            Response response = await Transform(document);
             return response;
         }
 
-        public async Task<Response> Transform(string content)
+        public async Task<Response> Transform(object content)
         {
-            var reviewElements = _webPageDocument.QuerySelectorAll("*[data-hook='review']");
+            Response response = new Response();
+            IDocument document = content as IDocument;
+            var reviewElements = document.QuerySelectorAll("*[data-hook='review']");
 
             foreach(var reviewElement in reviewElements)
             {
@@ -59,10 +57,12 @@ namespace Infrastructure.Persistence.Repositories
                 review.Content = getReviewContent(reviewElement);
                 review.Date = getReviewDate(reviewElement);
                 review.Rate = getReviewRate(reviewElement);
-                _response.Reviews.Add(review);
+                response.Reviews.Add(review);
             }
 
-            return _response;
+            response.ResponseStatus = ResponseStatusEnum.Success;
+
+            return response;
         }
 
         private string ToHttpRequest(Request request, uint pageNumber)

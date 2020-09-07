@@ -22,15 +22,27 @@ namespace WebUI.Controllers
         }
 
         // POST: api/<ReviewsController>
+        //[HttpPost]
+        //public ResponseDTO Post([FromBody] CollectReviewsSingleRequestDTO collectReviewsRequest)
+        //{
+        //    ResponseDTO response = new ResponseDTO();
+        //    if (ModelState.IsValid)
+        //    {
+        //        response = _collectorService.CollectSingleProductReviews(collectReviewsRequest).Result;
+        //    }
+        //    return response;
+        //}
+
+        // POST: api/<ReviewsController>
         [HttpPost]
-        public ResponseDTO Post([FromBody] CollectReviewsSingleRequestDTO collectReviewsRequest)
+        public List<ResponseDTO> Post([FromBody] CollectReviewsBulkRequestDTO collectReviewsRequest)
         {
-            ResponseDTO response = new ResponseDTO();
+            List<ResponseDTO> responses = new List<ResponseDTO>();
             if (ModelState.IsValid)
             {
-                response = _collectorService.CollectSingleProductReviews(collectReviewsRequest).Result;
+                responses = _collectorService.CollectMultipleProductsReviews(collectReviewsRequest).Result;
             }
-            return response;
+            return responses;
         }
     }
 }

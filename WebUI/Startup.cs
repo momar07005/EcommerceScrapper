@@ -24,7 +24,7 @@ namespace WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<IScrapper, AmazonScrapper>();
+            services.AddTransient<IScrapper, AmazonScrapper>();
             services.AddTransient<ICollectorService, CollectorService>();
             services.AddSwaggerGen();
 

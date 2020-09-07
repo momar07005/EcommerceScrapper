@@ -18,9 +18,20 @@ namespace Application.Services
             _scrapper = scrapper ?? throw new ArgumentNullException(nameof(scrapper));
         }
 
-        public Task<List<ResponseDTO>> CollectMultipleProductsReviews(CollectReviewsBulkRequestDTO bulkRequestDTO)
+        public async Task<List<ResponseDTO>> CollectMultipleProductsReviews(CollectReviewsBulkRequestDTO bulkRequestDTO)
         {
-            throw new NotImplementedException();
+            List<ResponseDTO> responseDTOs = new List<ResponseDTO>();
+
+            List<CollectReviewsSingleRequestDTO> singleRequestDTOs = bulkRequestDTO.ToSingRequests();
+
+            foreach(CollectReviewsSingleRequestDTO request in singleRequestDTOs)
+            {
+                ResponseDTO responseDTO = await CollectSingleProductReviews(request);
+
+                responseDTOs.Add(responseDTO);
+            }
+
+            return responseDTOs;
         }
 
         public async Task<ResponseDTO> CollectSingleProductReviews(CollectReviewsSingleRequestDTO requestDTO)

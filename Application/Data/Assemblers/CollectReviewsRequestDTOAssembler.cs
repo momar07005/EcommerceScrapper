@@ -44,6 +44,23 @@ namespace Application.Data.Assemblers
             }
             return bulkRequest;
         }
+
+        public static List<CollectReviewsSingleRequestDTO> ToSingRequests(this CollectReviewsBulkRequestDTO collectProductReviewsBulkRequestDTO)
+        {
+            List<CollectReviewsSingleRequestDTO> singleRequests = new List<CollectReviewsSingleRequestDTO>();
+            if (collectProductReviewsBulkRequestDTO != null)
+            {
+                singleRequests = collectProductReviewsBulkRequestDTO.ProductIds.Select(productId =>
+                                                                                        new CollectReviewsSingleRequestDTO 
+                                                                                        {
+                                                                                            NumberOfReviews = collectProductReviewsBulkRequestDTO.NumberOfReviews,
+                                                                                            ProductId = productId,
+                                                                                            Date = collectProductReviewsBulkRequestDTO.Date
+                                                                                        }
+                                                                                       ).ToList();
+            }
+            return singleRequests;
+        }
     }
 
 }
