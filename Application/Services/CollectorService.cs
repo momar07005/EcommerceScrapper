@@ -1,4 +1,6 @@
-﻿using Application.Data.DTO;
+﻿using Application.Data.Assemblers;
+using Application.Data.DTO;
+using Domain.Entities;
 using Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -21,9 +23,11 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<ResponseDTO> CollectSingleProductReviews(CollectReviewsSingleRequestDTO requestDTO)
+        public async Task<ResponseDTO> CollectSingleProductReviews(CollectReviewsSingleRequestDTO requestDTO)
         {
-            throw new NotImplementedException();
+            Response response = await _scrapper.Get(requestDTO.ToRequest(), 1);
+
+            return response.ToResponseDTO(requestDTO.ProductId);
         }
     }
 }
