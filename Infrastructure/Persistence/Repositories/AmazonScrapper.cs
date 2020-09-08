@@ -50,7 +50,7 @@ namespace Infrastructure.Persistence.Repositories
             IDocument document = content as IDocument;
             var reviewElements = document.QuerySelectorAll("*[data-hook='review']");
 
-            foreach(var reviewElement in reviewElements)
+            foreach (var reviewElement in reviewElements)
             {
                 Review review = new Review();
                 review.Title = getReviewTitle(reviewElement);
@@ -65,11 +65,30 @@ namespace Infrastructure.Persistence.Repositories
             return response;
         }
 
+        public async Task<uint> GetTotalReviewsNumber(Request request)
+        {
+            string httpRequest = ToHttpRequest(request);
+            IDocument document = await Extract(httpRequest) as IDocument;
+            return GetTotalReviewsNumber(document);
+        }
         private string ToHttpRequest(Request request, uint pageNumber)
         {
             string requestFormat = _configuration[Constant.AmazonBaseAdressConfigName] + _configuration[Constant.AmazonProductReviewsUrlFormatConfigName];
 
             return string.Format(requestFormat, request.ProductId, pageNumber);
+        }
+
+        private string ToHttpRequest(Request request)
+        {
+            return ToHttpRequest(request, 1);
+        }
+
+        private uint GetTotalReviewsNumber(IDocument document)
+        {
+            string reviewCountInfoElement = document.QuerySelector("*[data-hook='cr-filter-info-review-count']").Text().Replace("\n", "").Trim();
+            int reviewsCountStartIndex = reviewCountInfoElement.IndexOf("of ") + 3;
+            string totalReviewsNumberString = reviewCountInfoElement.Substring(reviewsCountStartIndex).Split(" ").FirstOrDefault();
+            return uint.Parse(totalReviewsNumberString);
         }
 
         private DateTime getReviewDate(IElement element)

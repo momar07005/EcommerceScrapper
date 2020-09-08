@@ -13,5 +13,7 @@ namespace Domain.Repositories
         public Task<Response> Transform(object content);
 
         public Task<Response> Get(Request request, uint pageNumber);
+
+        public Task<uint> GetTotalReviewsNumber(Request request);
     }
 }
