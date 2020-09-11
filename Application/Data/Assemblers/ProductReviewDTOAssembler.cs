@@ -14,12 +14,13 @@ namespace Application.Data.Assemblers
             if(review != null)
             {
                 return new ProductReviewDTO
-                {
+                { 
+                    ReviewId = review.ReviewId,
                     Title = review.Title,
                     Content = review.Content,
                     Rate = review.Rate,
                     ProductId = productId,
-                    Date = review.Date
+                    Date = review.Date,
                 };
             }
             else
@@ -35,6 +36,23 @@ namespace Application.Data.Assemblers
             if (reviews != null && reviews.Any())
             {
                 productReviewDTOs = reviews.Select(review => review.ToProductReviewDTO(productId)).ToList();
+            }
+
+            return productReviewDTOs;
+        }
+
+        public static ProductReviewDTO ToProductReviewDTO(this Review review)
+        {
+            return ToProductReviewDTO(review, review.ProductID);
+        }
+
+        public static List<ProductReviewDTO> ToProductReviewDTOList(this List<Review> reviews)
+        {
+            List<ProductReviewDTO> productReviewDTOs = new List<ProductReviewDTO>();
+
+            if (reviews != null && reviews.Any())
+            {
+                productReviewDTOs = reviews.Select(review => review.ToProductReviewDTO()).ToList();
             }
 
             return productReviewDTOs;
