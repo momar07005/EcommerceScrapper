@@ -28,7 +28,7 @@ namespace WebUI
             services.AddTransient<IScrapper, AmazonScrapper>();
             services.AddTransient<ICollectorService, CollectorService>();
             services.AddTransient<IRequestRepository, RequestRepository>();
-            services.AddTransient<IRequestRepository, RequestRepository>();
+            services.AddTransient<IReviewRepository, ReviewRepository>();
             services.AddSwaggerGen();
 
             services.AddDbContext<ScrappingContext>(options =>
