@@ -6,7 +6,9 @@ namespace Domain.Enumerations
 {
     public enum ResponseStatusEnum
     {
-        Success,
-        Failure
+        Failure = -1,
+        PartialSuccess = 0,
+        Success = 1,
+        
     }
 }
