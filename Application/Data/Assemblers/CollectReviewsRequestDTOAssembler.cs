@@ -61,6 +61,32 @@ namespace Application.Data.Assemblers
             }
             return singleRequests;
         }
+
+        public static CollectReviewsSingleRequestDTO ToRequestDTO(this Request request)
+        {
+            CollectReviewsSingleRequestDTO requestDTO = new CollectReviewsSingleRequestDTO();
+            if (request != null)
+            {
+                requestDTO = new CollectReviewsSingleRequestDTO
+                {
+                    NumberOfReviews = request.NumberOfReviews,
+                    Date = request.Date,
+                    ProductId = request.ProductId,
+                    Status = request.Status
+                };
+            }
+            return requestDTO;
+        }
+
+        public static List<CollectReviewsSingleRequestDTO> ToRequestDTOs(this List<Request> requests)
+        {
+            List<CollectReviewsSingleRequestDTO> requestDTOs = new List<CollectReviewsSingleRequestDTO>();
+            if (requests != null && requests.Any())
+            {
+                requestDTOs = requests.Where(request => request != null).Select(request => request.ToRequestDTO()).ToList();
+            }
+            return requestDTOs;
+        }
     }
 
 }
