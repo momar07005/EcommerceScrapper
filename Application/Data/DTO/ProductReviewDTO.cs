@@ -6,6 +6,8 @@ namespace Application.Data.DTO
 {
     public class ProductReviewDTO
     {
+        public string ReviewId { get; set; }
+
         public string Title { get; set; }
 
         public string Content { get; set; }
