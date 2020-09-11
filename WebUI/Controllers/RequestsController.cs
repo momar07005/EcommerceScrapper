@@ -31,10 +31,12 @@ namespace WebUI.Controllers
         public List<ResponseDTO> Post([FromBody] CollectReviewsBulkRequestDTO collectReviewsRequest)
         {
             List<ResponseDTO> responses = new List<ResponseDTO>();
+
             if (ModelState.IsValid)
             {
                 responses = _collectorService.CollectMultipleProductsReviews(collectReviewsRequest).Result;
             }
+
             return responses;
         }
 
@@ -42,10 +44,12 @@ namespace WebUI.Controllers
         public List<CollectReviewsSingleRequestDTO> Get(string productId)
         {
             List<CollectReviewsSingleRequestDTO> requests = new List<CollectReviewsSingleRequestDTO>();
+
             if (ModelState.IsValid)
             {
                 requests = _requestRepository.GetRequestsByProductId(productId).ToRequestDTOs();
             }
+
             return requests;
         }
 
@@ -53,10 +57,12 @@ namespace WebUI.Controllers
         public List<CollectReviewsSingleRequestDTO> GetAll()
         {
             List<CollectReviewsSingleRequestDTO> requests = new List<CollectReviewsSingleRequestDTO>();
+
             if (ModelState.IsValid)
             {
                 requests = _requestRepository.GetAllRequest().ToRequestDTOs();
             }
+
             return requests;
         }
     }

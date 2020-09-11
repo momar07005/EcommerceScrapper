@@ -20,6 +20,7 @@ namespace WebUI
             using (var serviceScope = host.Services.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var scrappingContext = serviceScope.ServiceProvider.GetRequiredService<ScrappingContext>();
+
                 scrappingContext.Database.EnsureCreated();
             }
 

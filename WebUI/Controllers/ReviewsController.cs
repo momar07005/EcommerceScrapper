@@ -16,13 +16,10 @@ namespace WebUI.Controllers
     [ApiController]
     public class ReviewsController : ControllerBase
     {
-        private ICollectorService _collectorService { get; set; }
-
         private IReviewRepository _reviewRepository { get; set; }
 
         public ReviewsController(ICollectorService collectorService, IReviewRepository reviewRepository)
         {
-            _collectorService = collectorService ?? throw new ArgumentNullException(nameof(collectorService));
             _reviewRepository = reviewRepository ?? throw new ArgumentNullException(nameof(reviewRepository));
         }
 
@@ -30,10 +27,12 @@ namespace WebUI.Controllers
         public List<ProductReviewDTO> Get(string productId)
         {
             List<ProductReviewDTO> reviews = new List<ProductReviewDTO>();
+
             if (ModelState.IsValid)
             {
                 reviews = _reviewRepository.GetReviewsByProductId(productId).ToProductReviewDTOList();
             }
+
             return reviews;
         }
 
@@ -41,10 +40,12 @@ namespace WebUI.Controllers
         public List<ProductReviewDTO> GetAllReviews()
         {
             List<ProductReviewDTO> reviews = new List<ProductReviewDTO>();
+
             if (ModelState.IsValid)
             {
                 reviews = _reviewRepository.GetAllReviews().ToProductReviewDTOList();
             }
+
             return reviews;
         }
     }
