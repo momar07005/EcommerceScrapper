@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebUI
 {
@@ -26,8 +27,12 @@ namespace WebUI
             services.AddControllers();
             services.AddTransient<IScrapper, AmazonScrapper>();
             services.AddTransient<ICollectorService, CollectorService>();
+            services.AddTransient<IRequestRepository, RequestRepository>();
+            services.AddTransient<IRequestRepository, RequestRepository>();
             services.AddSwaggerGen();
 
+            services.AddDbContext<ScrappingContext>(options =>
+                                                    options.UseSqlite(Configuration.GetConnectionString("ScrappingDatabase")));
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(
