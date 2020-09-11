@@ -46,7 +46,12 @@ namespace Application.Services
         {
             Request request = _requestRepository.Add(requestDTO.ToRequest());
 
-            uint numberOfNeededRequests = GetNumberOfNeededRequests(requestDTO);
+            int numberOfNeededRequests = GetNumberOfNeededRequests(requestDTO);
+
+            if(numberOfNeededRequests <= 0)
+            {
+                return new ResponseDTO();
+            }
 
             List<Response> responses = new List<Response>();
             Response partialResponse;
@@ -72,15 +77,20 @@ namespace Application.Services
             return resultResponse;
         }
 
-        private uint GetNumberOfNeededRequests(CollectReviewsSingleRequestDTO requestDTO)
+        private int GetNumberOfNeededRequests(CollectReviewsSingleRequestDTO requestDTO)
         {
-            uint totalReviewsNumber = _scrapper.GetTotalReviewsNumber(requestDTO.ToRequest()).Result;
+            int totalReviewsNumber = _scrapper.GetTotalReviewsNumber(requestDTO.ToRequest()).Result;
 
-            uint numberOfReviewsToReturn = Math.Min(totalReviewsNumber, requestDTO.NumberOfReviews);
+            if(totalReviewsNumber < 0)
+            {
+                return -1;
+            }
 
-            uint numberOfNeededRequests = numberOfReviewsToReturn / 10;
+            int numberOfReviewsToReturn = (int)Math.Min(totalReviewsNumber, requestDTO.NumberOfReviews);
 
-            uint numberOfReviewsInLastRequest = numberOfReviewsToReturn % 10;
+            int numberOfNeededRequests = numberOfReviewsToReturn / 10;
+
+            int numberOfReviewsInLastRequest = numberOfReviewsToReturn % 10;
 
             if (numberOfReviewsInLastRequest > 0)
             {
@@ -96,11 +106,13 @@ namespace Application.Services
 
             Response firstNonNullResponse = responses.FirstOrDefault();
 
-            response.Reviews = responses.Where(response => response.ResponseStatus == ResponseStatusEnum.Success)
+            response.Reviews = responses.Where(response => response.ResponseStatus != ResponseStatusEnum.Failure)
                                         .SelectMany(response => response.Reviews).ToList();
             response.Date = DateTime.Now;
 
-            response.ResponseStatus = ResponseStatusEnum.Success;
+            response.ResponseStatus = responses.Select(response => response.ResponseStatus).Distinct().Count() > 1 ?
+                                      ResponseStatusEnum.PartialSuccess :
+                                      firstNonNullResponse.ResponseStatus;
 
             return response;
         }

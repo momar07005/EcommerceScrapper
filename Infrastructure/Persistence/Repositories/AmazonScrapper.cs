@@ -11,6 +11,7 @@ using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 using AngleSharp.Dom;
 using System.Linq;
 using Domain.Enumerations;
+using System.Net;
 
 namespace Infrastructure.Persistence.Repositories
 {
@@ -25,13 +26,12 @@ namespace Infrastructure.Persistence.Repositories
 
         public async Task<object> Extract(string request)
         {
-            // Load default configuration
+            
             var config = Configuration.Default.WithDefaultLoader();
-            // Create a new browsing context
+            
             var context = BrowsingContext.New(config);
-            // This is where the HTTP request happens, returns <IDocument> that // we can query later
+           
             var document = await context.OpenAsync(request);
-            // Log the data to the console
 
             return document;
         }
@@ -39,8 +39,16 @@ namespace Infrastructure.Persistence.Repositories
         public async Task<Response> Get(Request request, uint pageNumber)
         {
             string httpRequest = ToHttpRequest(request, pageNumber);
+
             IDocument document = await Extract(httpRequest) as IDocument;
+
+            if(document.StatusCode != HttpStatusCode.OK)
+            {
+                return new Response();
+            }
+
             Response response = await Transform(request, document);
+
             return response;
         }
 
@@ -52,28 +60,54 @@ namespace Infrastructure.Persistence.Repositories
 
             foreach (var reviewElement in reviewElements)
             {
-                Review review = new Review
+                try
                 {
-                    ReviewId = reviewElement.Id,
-                    Title = getReviewTitle(reviewElement),
-                    Content = getReviewContent(reviewElement),
-                    Date = getReviewDate(reviewElement),
-                    Rate = getReviewRate(reviewElement),
-                    ProductID = request.ProductId
-                };
+                    Review review = new Review
+                    {
+                        ReviewId = reviewElement.Id,
+                        Title = getReviewTitle(reviewElement),
+                        Content = getReviewContent(reviewElement),
+                        Date = getReviewDate(reviewElement),
+                        Rate = getReviewRate(reviewElement),
+                        ProductID = request.ProductId
+                    };
 
-                response.Reviews.Add(review);
+                    response.Reviews.Add(review);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
             }
 
-            response.ResponseStatus = ResponseStatusEnum.Success;
+            SetResponseStatus(response, reviewElements);
 
             return response;
         }
 
-        public async Task<uint> GetTotalReviewsNumber(Request request)
+        private  void SetResponseStatus(Response response, IHtmlCollection<IElement> reviewElements)
+        {
+            if (response.Reviews.Count == reviewElements.Count() && reviewElements.Any())
+            {
+                response.ResponseStatus = ResponseStatusEnum.Success;
+            }
+            else
+            {
+                response.ResponseStatus = response.Reviews.Any() ? ResponseStatusEnum.PartialSuccess : ResponseStatusEnum.Failure;
+            }
+        }
+
+        public async Task<int> GetTotalReviewsNumber(Request request)
         {
             string httpRequest = ToHttpRequest(request);
+
             IDocument document = await Extract(httpRequest) as IDocument;
+
+            if (document.StatusCode != HttpStatusCode.OK)
+            {
+                return -1;
+            }
+
             return GetTotalReviewsNumber(document);
         }
 
@@ -89,12 +123,19 @@ namespace Infrastructure.Persistence.Repositories
             return ToHttpRequest(request, 1);
         }
 
-        private uint GetTotalReviewsNumber(IDocument document)
+        private int GetTotalReviewsNumber(IDocument document)
         {
-            string reviewCountInfoElement = document.QuerySelector("*[data-hook='cr-filter-info-review-rating-count']").Text().Replace("\n", "").Trim();
-            int reviewsCountStartIndex = reviewCountInfoElement.IndexOf("| ") + 2;
-            string totalReviewsNumberString = reviewCountInfoElement.Substring(reviewsCountStartIndex).Split(" ").FirstOrDefault();
-            return uint.Parse(totalReviewsNumberString);
+            try
+            {
+                string reviewCountInfoElement = document.QuerySelector("*[data-hook='cr-filter-info-review-rating-count']").Text().Replace("\n", "").Trim();
+                int reviewsCountStartIndex = reviewCountInfoElement.IndexOf("| ") + 2;
+                string totalReviewsNumberString = reviewCountInfoElement.Substring(reviewsCountStartIndex).Split(" ").FirstOrDefault();
+                return int.Parse(totalReviewsNumberString);
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
         }
 
         private DateTime getReviewDate(IElement element)

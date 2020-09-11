@@ -14,6 +14,6 @@ namespace Domain.Repositories
 
         public Task<Response> Get(Request request, uint pageNumber);
 
-        public Task<uint> GetTotalReviewsNumber(Request request);
+        public Task<int> GetTotalReviewsNumber(Request request);
     }
 }

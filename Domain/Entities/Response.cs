@@ -9,7 +9,7 @@ namespace Domain.Entities
     {
         public List<Review> Reviews { get; set; } = new List<Review>();
 
-        public ResponseStatusEnum ResponseStatus { get; set; }
+        public ResponseStatusEnum ResponseStatus { get; set; } = ResponseStatusEnum.Failure;
 
         public string Message { get; set; }
 

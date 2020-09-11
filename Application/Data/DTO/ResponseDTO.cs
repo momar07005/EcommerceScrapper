@@ -7,8 +7,8 @@ namespace Application.Data.DTO
 {
     public class ResponseDTO
     {
-        public ResponseStatusEnum ResponseStatus { get; set; }
+        public ResponseStatusEnum ResponseStatus { get; set; } = ResponseStatusEnum.Failure;
 
-        public List<ProductReviewDTO> ProductReviews { get; set; }
+        public List<ProductReviewDTO> ProductReviews { get; set; } = new List<ProductReviewDTO>();
     }
 }
