@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,7 +11,7 @@ namespace Domain.Entities
 
         public uint NumberOfReviews { get; set; }
 
-        public Response Response { get; set; }
+        public RequestStatusEnum Status { get; set; } = RequestStatusEnum.Failure;
 
         public DateTime Date { get; set; }
 
