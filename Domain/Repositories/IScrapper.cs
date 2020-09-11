@@ -10,7 +10,7 @@ namespace Domain.Repositories
     {
         public Task<object> Extract(string request);
 
-        public Task<Response> Transform(object content);
+        public Task<Response> Transform(Request request, object content);
 
         public Task<Response> Get(Request request, uint pageNumber);
 

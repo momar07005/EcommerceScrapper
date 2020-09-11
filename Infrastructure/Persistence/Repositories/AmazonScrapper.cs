@@ -40,11 +40,11 @@ namespace Infrastructure.Persistence.Repositories
         {
             string httpRequest = ToHttpRequest(request, pageNumber);
             IDocument document = await Extract(httpRequest) as IDocument;
-            Response response = await Transform(document);
+            Response response = await Transform(request, document);
             return response;
         }
 
-        public async Task<Response> Transform(object content)
+        public async Task<Response> Transform(Request request, object content)
         {
             Response response = new Response();
             IDocument document = content as IDocument;
@@ -52,11 +52,16 @@ namespace Infrastructure.Persistence.Repositories
 
             foreach (var reviewElement in reviewElements)
             {
-                Review review = new Review();
-                review.Title = getReviewTitle(reviewElement);
-                review.Content = getReviewContent(reviewElement);
-                review.Date = getReviewDate(reviewElement);
-                review.Rate = getReviewRate(reviewElement);
+                Review review = new Review
+                {
+                    ReviewId = reviewElement.Id,
+                    Title = getReviewTitle(reviewElement),
+                    Content = getReviewContent(reviewElement),
+                    Date = getReviewDate(reviewElement),
+                    Rate = getReviewRate(reviewElement),
+                    ProductID = request.ProductId
+                };
+
                 response.Reviews.Add(review);
             }
 
@@ -71,6 +76,7 @@ namespace Infrastructure.Persistence.Repositories
             IDocument document = await Extract(httpRequest) as IDocument;
             return GetTotalReviewsNumber(document);
         }
+
         private string ToHttpRequest(Request request, uint pageNumber)
         {
             string requestFormat = _configuration[Constant.AmazonBaseAdressConfigName] + _configuration[Constant.AmazonProductReviewsUrlFormatConfigName];
