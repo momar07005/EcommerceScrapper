@@ -92,7 +92,7 @@ namespace Infrastructure.Persistence.Repositories
         private uint GetTotalReviewsNumber(IDocument document)
         {
             string reviewCountInfoElement = document.QuerySelector("*[data-hook='cr-filter-info-review-rating-count']").Text().Replace("\n", "").Trim();
-            int reviewsCountStartIndex = reviewCountInfoElement.IndexOf("of ") + 3;
+            int reviewsCountStartIndex = reviewCountInfoElement.IndexOf("| ") + 2;
             string totalReviewsNumberString = reviewCountInfoElement.Substring(reviewsCountStartIndex).Split(" ").FirstOrDefault();
             return uint.Parse(totalReviewsNumberString);
         }
