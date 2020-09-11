@@ -15,9 +15,15 @@ namespace Application.Services
     {
         private IScrapper _scrapper;
 
-        public CollectorService(IScrapper scrapper)
+        private IReviewRepository _reviewRepository;
+
+        private IRequestRepository _requestRepository;
+
+        public CollectorService(IScrapper scrapper, IReviewRepository reviewRepository, IRequestRepository requestRepository)
         {
             _scrapper = scrapper ?? throw new ArgumentNullException(nameof(scrapper));
+            _reviewRepository = reviewRepository ?? throw new ArgumentNullException(nameof(reviewRepository));
+            _requestRepository = requestRepository ?? throw new ArgumentNullException(nameof(requestRepository));
         }
 
         public async Task<List<ResponseDTO>> CollectMultipleProductsReviews(CollectReviewsBulkRequestDTO bulkRequestDTO)
@@ -38,6 +44,8 @@ namespace Application.Services
 
         public async Task<ResponseDTO> CollectSingleProductReviews(CollectReviewsSingleRequestDTO requestDTO)
         {
+            Request request = _requestRepository.Add(requestDTO.ToRequest());
+
             uint numberOfNeededRequests = GetNumberOfNeededRequests(requestDTO);
 
             List<Response> responses = new List<Response>();
@@ -47,10 +55,21 @@ namespace Application.Services
             {
                 partialResponse = await _scrapper.Get(requestDTO.ToRequest(), i);
 
+                if(partialResponse.ResponseStatus != ResponseStatusEnum.Failure)
+                {
+                    _reviewRepository.Add(partialResponse.Reviews);
+                }
+
                 responses.Add(partialResponse);
             }
 
-            return MergeResponses(responses).ToResponseDTO(requestDTO.ProductId);
+            ResponseDTO resultResponse = MergeResponses(responses).ToResponseDTO(requestDTO.ProductId);
+
+            request.Status = resultResponse.ResponseStatus.ToRequestStatusEnum();
+
+            _requestRepository.Update(request);
+
+            return resultResponse;
         }
 
         private uint GetNumberOfNeededRequests(CollectReviewsSingleRequestDTO requestDTO)
