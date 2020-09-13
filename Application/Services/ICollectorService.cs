@@ -10,9 +10,9 @@ namespace Application.Services
 {
     public interface ICollectorService
     {
-        public Task<ResponseDTO> CollectSingleProductReviews(CollectReviewsSingleRequestDTO requestDTO);
+        public ResponseDTO CollectSingleProductReviews(CollectReviewsSingleRequestDTO requestDTO);
 
-        public Task<List<ResponseDTO>> CollectMultipleProductsReviews(CollectReviewsBulkRequestDTO bulkRequestDTO);
+        public List<ResponseDTO> CollectMultipleProductsReviews(CollectReviewsBulkRequestDTO bulkRequestDTO);
         
     }
 }

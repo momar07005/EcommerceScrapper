@@ -47,12 +47,12 @@ namespace Infrastructure.Persistence.Repositories
                 return new Response();
             }
 
-            Response response = await Transform(request, document);
+            Response response = Transform(request, document);
 
             return response;
         }
 
-        public async Task<Response> Transform(Request request, object content)
+        public Response Transform(Request request, object content)
         {
             Response response = new Response();
             IDocument document = content as IDocument;

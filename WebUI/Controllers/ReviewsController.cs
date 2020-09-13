@@ -18,7 +18,7 @@ namespace WebUI.Controllers
     {
         private IReviewRepository _reviewRepository { get; set; }
 
-        public ReviewsController(ICollectorService collectorService, IReviewRepository reviewRepository)
+        public ReviewsController(IReviewRepository reviewRepository)
         {
             _reviewRepository = reviewRepository ?? throw new ArgumentNullException(nameof(reviewRepository));
         }

@@ -34,7 +34,7 @@ namespace WebUI.Controllers
 
             if (ModelState.IsValid)
             {
-                responses = _collectorService.CollectMultipleProductsReviews(collectReviewsRequest).Result;
+                responses = _collectorService.CollectMultipleProductsReviews(collectReviewsRequest);
             }
 
             return responses;

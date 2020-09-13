@@ -26,7 +26,8 @@ namespace Application.Services
             _requestRepository = requestRepository ?? throw new ArgumentNullException(nameof(requestRepository));
         }
 
-        public async Task<List<ResponseDTO>> CollectMultipleProductsReviews(CollectReviewsBulkRequestDTO bulkRequestDTO)
+
+        public List<ResponseDTO> CollectMultipleProductsReviews(CollectReviewsBulkRequestDTO bulkRequestDTO)
         {
             List<ResponseDTO> responseDTOs = new List<ResponseDTO>();
 
@@ -34,7 +35,7 @@ namespace Application.Services
 
             foreach (CollectReviewsSingleRequestDTO request in singleRequestDTOs)
             {
-                ResponseDTO responseDTO = await CollectSingleProductReviews(request);
+                ResponseDTO responseDTO = CollectSingleProductReviews(request);
 
                 responseDTOs.Add(responseDTO);
             }
@@ -42,31 +43,24 @@ namespace Application.Services
             return responseDTOs;
         }
 
-        public async Task<ResponseDTO> CollectSingleProductReviews(CollectReviewsSingleRequestDTO requestDTO)
+
+        public ResponseDTO CollectSingleProductReviews(CollectReviewsSingleRequestDTO requestDTO)
         {
             Request request = _requestRepository.Add(requestDTO.ToRequest());
 
             int numberOfNeededRequests = GetNumberOfNeededRequests(requestDTO);
 
-            if(numberOfNeededRequests <= 0)
+            if (numberOfNeededRequests <= 0)
             {
                 return new ResponseDTO();
             }
 
-            List<Response> responses = new List<Response>();
-            Response partialResponse;
+            List<Response> responses = GetResponses(requestDTO, numberOfNeededRequests);
 
-            for (uint i = 1; i <= numberOfNeededRequests; i++)
-            {
-                partialResponse = await _scrapper.Get(requestDTO.ToRequest(), i);
+            List<Review> reviews = responses.Where(response => response.ResponseStatus != ResponseStatusEnum.Failure)
+                                                          .SelectMany(response => response.Reviews).ToList();
 
-                if(partialResponse.ResponseStatus != ResponseStatusEnum.Failure)
-                {
-                    _reviewRepository.Add(partialResponse.Reviews);
-                }
-
-                responses.Add(partialResponse);
-            }
+            _reviewRepository.Add(reviews);
 
             ResponseDTO resultResponse = MergeResponses(responses).ToResponseDTO(requestDTO.ProductId);
 
@@ -76,6 +70,34 @@ namespace Application.Services
 
             return resultResponse;
         }
+
+        
+        private List<Response> GetResponses(CollectReviewsSingleRequestDTO requestDTO, int numberOfNeededRequests)
+        {
+            List<Response> responses = new List<Response>();
+
+            List<Action> getPartialResponseActions = new List<Action>();
+
+            for (uint i = 1; i <= numberOfNeededRequests; i++)
+            {
+                var pageNumber = i;
+
+                getPartialResponseActions.Add(async () =>
+                {
+                    Response partialResponse = await _scrapper.Get(requestDTO.ToRequest(), pageNumber);
+
+                    responses.Add(partialResponse);
+                });
+
+            }
+
+            var options = new ParallelOptions { MaxDegreeOfParallelism = 3 };
+
+            Parallel.Invoke(options, getPartialResponseActions.ToArray());
+
+            return responses;
+        }
+
 
         private int GetNumberOfNeededRequests(CollectReviewsSingleRequestDTO requestDTO)
         {
@@ -100,19 +122,23 @@ namespace Application.Services
             return numberOfNeededRequests;
         }
 
+
         private Response MergeResponses(List<Response> responses)
         {
             Response response = new Response();
 
             Response firstNonNullResponse = responses.FirstOrDefault();
 
-            response.Reviews = responses.Where(response => response.ResponseStatus != ResponseStatusEnum.Failure)
+            if (firstNonNullResponse != null)
+            {
+                response.Reviews = responses.Where(response => response.ResponseStatus != ResponseStatusEnum.Failure)
                                         .SelectMany(response => response.Reviews).ToList();
-            response.Date = DateTime.Now;
+                response.Date = DateTime.Now;
 
-            response.ResponseStatus = responses.Select(response => response.ResponseStatus).Distinct().Count() > 1 ?
-                                      ResponseStatusEnum.PartialSuccess :
-                                      firstNonNullResponse.ResponseStatus;
+                response.ResponseStatus = responses.Select(response => response.ResponseStatus).Distinct().Count() > 1 ?
+                                          ResponseStatusEnum.PartialSuccess :
+                                          firstNonNullResponse.ResponseStatus;
+            }
 
             return response;
         }
