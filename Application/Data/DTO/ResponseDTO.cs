@@ -9,6 +9,6 @@ namespace Application.Data.DTO
     {
         public ResponseStatusEnum ResponseStatus { get; set; } = ResponseStatusEnum.Failure;
 
-        public List<ProductReviewDTO> ProductReviews { get; set; } = new List<ProductReviewDTO>();
+        public int NumberOfIndexedReviews { get; set; }
     }
 }

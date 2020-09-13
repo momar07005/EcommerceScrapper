@@ -2,6 +2,7 @@
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Application.Data.Assemblers
@@ -14,7 +15,7 @@ namespace Application.Data.Assemblers
             {
                 return new ResponseDTO
                 {
-                    ProductReviews = response.Reviews.ToProductReviewDTOList(productId),
+                    NumberOfIndexedReviews = response.Reviews.Count,
                     ResponseStatus = response.ResponseStatus
                 };
             }
