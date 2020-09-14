@@ -32,9 +32,33 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\Request.ts" />
+    <None Remove="ClientApp\src\app\RequestStatusEnum.ts" />
+    <None Remove="ClientApp\src\app\Review.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ClientApp\src\app\RequestStatusEnum.js">
+      <DependentUpon>RequestStatusEnum.ts</DependentUpon>
+    </None>
+    <None Update="ClientApp\src\app\RequestStatusEnum.js.map">
+      <DependentUpon>RequestStatusEnum.js</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Update="ClientApp\src\app\Request.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Update="ClientApp\src\app\RequestStatusEnum.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
