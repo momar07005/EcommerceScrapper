@@ -12,13 +12,19 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogBoxComponent } from './dialog-box/dialog-box.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     RequestComponent,
-    ReviewComponent
+    ReviewComponent,
+    DialogBoxComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +35,11 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonModule,
+    FormsModule,
+    MatDialogModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
