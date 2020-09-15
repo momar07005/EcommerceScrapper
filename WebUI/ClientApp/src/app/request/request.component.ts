@@ -38,4 +38,8 @@ export class RequestComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
 }
