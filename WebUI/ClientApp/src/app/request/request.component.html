@@ -1,12 +1,16 @@
 <div class="container text-center">
-  <div>
-    <mat-form-field>
-      <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
-    </mat-form-field>
+
+  <div style="text-align: center;">
+    <div style="display: inline-block">
+      <mat-form-field>
+        <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
+    <div style="position: absolute ; right : 2px;  display: inline-block; padding-top: 15px">
+      <button mat-button (click)="openDialog({})" mat-flat-button color="primary">Make request</button>
+    </div>
   </div>
-
-  <button mat-button (click)="openDialog({})" mat-flat-button color="primary">Make request</button>
-
+ 
   <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="productId">
       <th mat-header-cell *matHeaderCellDef> ProductId </th>
