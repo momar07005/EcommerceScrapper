@@ -60,7 +60,7 @@ namespace WebUI.Controllers
 
             if (ModelState.IsValid)
             {
-                requests = _requestRepository.GetAllRequest().ToRequestDTOs();
+                requests = _requestRepository.GetAllRequest().OrderByDescending(request => request.Date).ToList().ToRequestDTOs();
             }
 
             return requests;
