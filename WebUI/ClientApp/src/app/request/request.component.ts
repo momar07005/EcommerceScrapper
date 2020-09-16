@@ -5,6 +5,7 @@ import { RepositoryService } from '../repository.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { BulkRequest } from '../Request';
+import { Request } from '../Request';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -34,9 +35,9 @@ export class RequestComponent implements OnInit {
 
   loadData() {
      this.repositoryService.getAllRequests("Requests")
-                        .subscribe(res => {
-                                      this.dataSource.data = res as Request[];
-                                   });
+       .subscribe(res => {
+         this.dataSource.data = res
+       });
   }
 
   ngAfterViewInit(): void {
@@ -55,16 +56,31 @@ export class RequestComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-        
+      result.data.date = new Date();
+      this.postAPIRequest(result.data);
     });
   }
 
-  //ToRequest(bulkRequest: BulkRequest): Request[] {
-  //  let requests: Request[];
-  //  bulkRequest.productIds.forEach(function (value) {
-  //    requests.push(new Request(value, bulkRequest.numberOfReviews, bulkRequest.date));
-  //  });
-  //  return requests;
-  //};
+  ToRequest(bulkRequest: BulkRequest): Request[] {
+    let requests: Request[] = [];
+    bulkRequest.productIds.forEach(function (value) {
+      requests.push(new Request(value, bulkRequest.numberOfReviews, bulkRequest.date));
+    });
+    return requests;
+  };
 
+  postAPIRequest(body: any) {
+    let singleRequests: Request[]= this.ToRequest(body);
+    
+    singleRequests.forEach(request => {
+      this.dataSource.data.unshift(request);
+      this.dataSource.data = [...this.dataSource.data];
+    });
+
+    this.repositoryService.createIndexationRequest("Requests", { ProductIds: body.productIds, NumberOfReviews: body.numberOfReviews, Date: body.date })
+      .subscribe(res => {
+
+        this.loadData();
+      })
+  }
 }

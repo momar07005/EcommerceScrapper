@@ -1,10 +1,7 @@
 <h1 mat-dialog-title style="text-align: center">Product indexation request</h1>
 <div mat-dialog-content style="text-align: center">
   <mat-form-field>
-    <input placeholder="Product's AINS seperated by space" matInput [(ngModel)]="bulkRequest.productIds">
-  </mat-form-field>
-  <mat-form-field>
-    <input placeholder="Number of reviews to index" matInput [(ngModel)]="bulkRequest.numberOfReviews">
+    <input type="number" placeholder="Number of reviews to index" matInput [(ngModel)]="bulkRequest.numberOfReviews">
   </mat-form-field>
   <mat-form-field style="width: 59%">
     <mat-chip-list #chipList aria-label="Products' AINS">

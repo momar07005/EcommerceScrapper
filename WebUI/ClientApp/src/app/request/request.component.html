@@ -26,6 +26,7 @@
         <mat-icon *ngIf="element.status == -1">error</mat-icon>
         <mat-icon *ngIf="element.status == 0">warning</mat-icon>
         <mat-icon *ngIf="element.status == 1">check_box</mat-icon>
+        <mat-spinner [diameter]="30" *ngIf="element.status == 2"></mat-spinner>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
