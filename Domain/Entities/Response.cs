@@ -15,14 +15,9 @@ namespace Domain.Entities
 
         public DateTime Date { get; set; }
 
-        protected override bool EqualsCore(Response obj)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override int GetHashCodeCore()
         {
-            throw new NotImplementedException();
+            return Id.GetHashCode() ^ Date.GetHashCode();
         }
     }
 }

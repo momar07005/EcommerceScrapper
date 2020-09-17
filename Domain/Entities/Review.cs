@@ -18,14 +18,10 @@ namespace Domain.Entities
 
         public DateTime Date { get; set; }
 
-        protected override bool EqualsCore(Review obj)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override int GetHashCodeCore()
         {
-            throw new NotImplementedException();
+            return ReviewId.GetHashCode() ^ ProductID.GetHashCode();
+
         }
     }
 }

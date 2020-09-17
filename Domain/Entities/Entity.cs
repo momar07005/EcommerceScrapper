@@ -18,16 +18,10 @@ namespace Domain.Entities
             if (ReferenceEquals(this, entityToCompareWith))
                 return true;
 
-            return EqualsCore(entityToCompareWith);
+            return this.Id == entityToCompareWith.Id;
         }
 
-        public static bool operator ==(Entity<T> a, Entity<T> b) => a.Equals(b);
-
-        public static bool operator !=(Entity<T> a, Entity<T> b) => !(a == b);
-
         public override int GetHashCode() => GetHashCodeCore();
-
-        protected abstract bool EqualsCore(T obj);
 
         protected abstract int GetHashCodeCore();
     }
