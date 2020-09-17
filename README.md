@@ -33,7 +33,7 @@
 
   - pre-requisite
   
-      Have nodejs, npm, angular CLI , .net core ... installed
+      Have nodejs, npm, .net core ... installed
       
       Restore packages through dotnet restore(root folder: .\AmazonProductReviewsScrapping\) and npm install (root folder : .\AmazonProductReviewsScrapping\WebUI\ClientApp) commands
       
@@ -49,6 +49,7 @@
     - Improve user interface
     - Configure degree of parallelism depending on computer characteristics
     - Make the app asynchronous depending on potential usage
+    - Fix reviews' sort by columns feature
 
 ## PS:
 
