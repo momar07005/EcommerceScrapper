@@ -43,7 +43,7 @@ namespace WebUI.Controllers
 
             if (ModelState.IsValid)
             {
-                reviews = _reviewRepository.GetAllReviews().ToProductReviewDTOList();
+                reviews = _reviewRepository.GetAllReviews().OrderByDescending(review => review.Date).ToList().ToProductReviewDTOList();
             }
 
             return reviews;
