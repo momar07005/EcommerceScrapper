@@ -82,9 +82,9 @@ namespace Application.Services
             {
                 var pageNumber = i;
 
-                getPartialResponseActions.Add(async () =>
+                getPartialResponseActions.Add(() =>
                 {
-                    Response partialResponse = await _scrapper.Get(requestDTO.ToRequest(), pageNumber);
+                    Response partialResponse = _scrapper.Get(requestDTO.ToRequest(), pageNumber).Result;
 
                     responses.Add(partialResponse);
                 });
@@ -92,8 +92,10 @@ namespace Application.Services
             }
 
             var options = new ParallelOptions { MaxDegreeOfParallelism = 3 };
-
-            Parallel.Invoke(options, getPartialResponseActions.ToArray());
+            Task.Run(() =>
+            {
+                Parallel.Invoke(options, getPartialResponseActions.ToArray());
+            }).Wait();
 
             return responses;
         }
