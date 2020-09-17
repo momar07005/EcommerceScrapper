@@ -12,6 +12,7 @@ using AngleSharp.Dom;
 using System.Linq;
 using Domain.Enumerations;
 using System.Net;
+using System.Globalization;
 
 namespace Infrastructure.Persistence.Repositories
 {
@@ -130,7 +131,7 @@ namespace Infrastructure.Persistence.Repositories
                 string reviewCountInfoElement = document.QuerySelector("*[data-hook='cr-filter-info-review-rating-count']").Text().Replace("\n", "").Trim();
                 int reviewsCountStartIndex = reviewCountInfoElement.IndexOf("| ") + 2;
                 string totalReviewsNumberString = reviewCountInfoElement.Substring(reviewsCountStartIndex).Split(" ").FirstOrDefault();
-                return int.Parse(totalReviewsNumberString);
+                return int.Parse(totalReviewsNumberString, NumberStyles.AllowThousands);
             }
             catch (Exception)
             {
