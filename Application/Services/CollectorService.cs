@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Domain.Enumerations;
+using Microsoft.Extensions.Configuration;
 
 namespace Application.Services
 {
@@ -19,17 +20,24 @@ namespace Application.Services
 
         private IRequestRepository _requestRepository;
 
-        public CollectorService(IScrapper scrapper, IReviewRepository reviewRepository, IRequestRepository requestRepository)
+        private readonly IConfiguration _configuration;
+
+        public CollectorService(IScrapper scrapper, IReviewRepository reviewRepository, IRequestRepository requestRepository, IConfiguration configuration)
         {
             _scrapper = scrapper ?? throw new ArgumentNullException(nameof(scrapper));
             _reviewRepository = reviewRepository ?? throw new ArgumentNullException(nameof(reviewRepository));
             _requestRepository = requestRepository ?? throw new ArgumentNullException(nameof(requestRepository));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
-
 
         public List<ResponseDTO> CollectMultipleProductsReviews(CollectReviewsBulkRequestDTO bulkRequestDTO)
         {
             List<ResponseDTO> responseDTOs = new List<ResponseDTO>();
+
+            if ((DateTime.Now - bulkRequestDTO.Date).Minutes > 2)
+            {
+                bulkRequestDTO.Date = DateTime.Now;
+            }
 
             List<CollectReviewsSingleRequestDTO> singleRequestDTOs = bulkRequestDTO.ToSingRequests();
 
@@ -91,7 +99,10 @@ namespace Application.Services
 
             }
 
-            var options = new ParallelOptions { MaxDegreeOfParallelism = 3 };
+            int maxDegreeOfParllelism = int.Parse(_configuration[Constant.MaxDegreeOfParllelism]);
+
+            var options = new ParallelOptions { MaxDegreeOfParallelism = maxDegreeOfParllelism };
+            
             Task.Run(() =>
             {
                 Parallel.Invoke(options, getPartialResponseActions.ToArray());
