@@ -5,29 +5,29 @@
     </mat-form-field>
   </div>
 
-  <table mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="AINS">
-      <th mat-header-cell *matHeaderCellDef> AINS </th>
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="ASIN">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> ASIN </th>
       <td mat-cell *matCellDef="let element"> {{element.productId}} </td>
     </ng-container>
     <ng-container matColumnDef="ReviewId">
-      <th mat-header-cell *matHeaderCellDef> ReviewId </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> ReviewId </th>
       <td mat-cell *matCellDef="let element"> {{element.reviewId}} </td>
     </ng-container>
     <ng-container matColumnDef="Title">
-      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
       <td mat-cell *matCellDef="let element"> {{element.title}} </td>
     </ng-container>
     <ng-container matColumnDef="Content">
-      <th mat-header-cell *matHeaderCellDef> Content </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Content </th>
       <td mat-cell *matCellDef="let element"> {{element.content}} </td>
     </ng-container>
     <ng-container matColumnDef="Rate">
-      <th mat-header-cell *matHeaderCellDef> Rate </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Rate </th>
       <td mat-cell *matCellDef="let element"> {{element.rate}} </td>
     </ng-container>
     <ng-container matColumnDef="Date">
-      <th mat-header-cell *matHeaderCellDef> Date </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
       <td mat-cell *matCellDef="let element"> {{element.date | date}} </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

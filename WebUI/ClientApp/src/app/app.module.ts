@@ -19,6 +19,7 @@ import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatSortModule } from '@angular/material/sort';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatDialogModule,
     MatChipsModule,
     MatProgressSpinnerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]
