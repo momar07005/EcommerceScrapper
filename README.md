@@ -35,13 +35,12 @@
   
       Have nodejs, npm, .net core ... installed
       
-      Restore packages through dotnet restore(root folder: .\AmazonProductReviewsScrapping\) and npm install (root folder : .\AmazonProductReviewsScrapping\WebUI\ClientApp) commands
       
   - Command to run the app : "dotnet run" inside WebUI folder
   
   After that app should be available at http://localhost:5002/
   
-  ⚡ : Give time to Angular app to be ready: sometimes the .net core api load before angular app is available
+  ⚡ : Give time to Angular app to be ready: sometimes the .net core api load before angular app become available
   
   
   
