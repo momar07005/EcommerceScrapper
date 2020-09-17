@@ -7,6 +7,6 @@ namespace Application
 
     internal static class Constant
     {
-        internal const string MaxDegreeOfParllelism = "MaxDegreeOfParllelismForReviewsIndexation";
+        internal const string MaxDegreeOfParllelism = "MaxDegreeOfParallelismForReviewsIndexation";
     }
 }
