@@ -24,7 +24,7 @@
    
     Retrieve any number of reviews (multiple of 10)
 
-    Do not retrieve reviews already indexe
+    Do not retrieve reviews already indexed
     
     Fast indexation time (Configurable)
     
@@ -40,6 +40,8 @@
   - Command to run the app : "dotnet run" inside WebUI folder
   
   After that app should be available at http://localhost:5002/
+  
+  ⚡ : Give time to Angular app to be ready: sometimes the .net core api load before angular app is available
   
   
   
