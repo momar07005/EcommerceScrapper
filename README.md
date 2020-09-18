@@ -22,11 +22,21 @@
         
   ## Bonus
    
-    Retrieve any number of reviews (multiple of 10)
+    Retrieve any number of reviews (multiple of 10) ✅
 
-    Do not retrieve reviews already indexed
+    Do not retrieve reviews already indexed ✅
     
-    Fast indexation time (Configurable)
+    Fast indexation time (Configurable) ✅
+    
+    Pagination for indexation requests and reviews tables ✅
+    
+    List of indexation requests with details ✅
+    
+    Partial success status for requests ✅
+    
+    Filter on indexation requests ✅
+    
+    
     
     
 ## To Run
@@ -44,17 +54,25 @@
   
   
   
-  ## Changes to make for production ready version
+  ## Improvements to make for production ready version
   
     - Change database: for this POC, SQLite is embedded.
+    - Add integration tests
     - Improve user interface
     - Configure degree of parallelism depending on computer characteristics
     - Make the app asynchronous depending on potential usage
     - Fix reviews' sort by columns feature
+    - Get number of actually downloaded reviews per request
+    - Possibilty to replay an indexation request by one click
 
 ## PS:
 
 I do believe that code with well named variables and functions does not need comments !
 
+![alt text](https://github.com/momar07005/EcommerceScrapper/blob/master/DemoPictures/RequestCreation.PNG?raw=true)
+
+![alt text](https://github.com/momar07005/EcommerceScrapper/blob/master/DemoPictures/RequestsList.PNG?raw=true)
+
+![alt text](https://github.com/momar07005/EcommerceScrapper/blob/master/DemoPictures/ReviewsList.PNG?raw=true)
 
 
