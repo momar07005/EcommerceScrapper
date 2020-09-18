@@ -20,21 +20,21 @@
         - Ability to sort per column ❌
         - (bonus) Text search within review texts ✅
         
-  ## Bonus
+  ## Bonuses
    
-    Retrieve any number of reviews (multiple of 10) ✅
+    - Retrieve any number of reviews (multiple of 10) ✅
 
-    Do not retrieve reviews already indexed ✅
+    - Do not retrieve reviews already indexed ✅
     
-    Fast indexation time (Configurable) ✅
+    - Fast indexation time (Configurable) ✅
     
-    Pagination for indexation requests and reviews tables ✅
+    - Pagination for indexation requests and reviews tables ✅
     
-    List of indexation requests with details ✅
+    - List of indexation requests with details ✅
     
-    Partial success status for requests ✅
+    - Partial success status for requests ✅
     
-    Filter on indexation requests ✅
+    - Filter on indexation requests ✅
     
     
     
