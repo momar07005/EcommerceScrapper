@@ -22,7 +22,7 @@
         
   ## Bonuses
    
-    - Retrieve any number of reviews (multiple of 10) ✅
+    - Retrieve any number of available reviews (multiple of 10) ✅
 
     - Do not retrieve reviews already indexed ✅
     
@@ -50,7 +50,7 @@
   
   After that app should be available at http://localhost:5002/
   
-  ⚡ : Give time to Angular app to be ready: sometimes the .net core api load before angular app become available
+  ⚡ : Give time to Angular app to be ready: sometimes the .net core api is ready before the angular app becomes available
   
   
   
@@ -67,7 +67,7 @@
 
 ## PS:
 
-I do believe that code with well named variables and functions does not need comments !
+I do believe that code with well named variables and methods does not need comments !
 
 ![alt text](https://github.com/momar07005/EcommerceScrapper/blob/master/DemoPictures/RequestCreation.PNG?raw=true)
 
