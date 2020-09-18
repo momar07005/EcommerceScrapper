@@ -63,7 +63,7 @@
     - Make the app asynchronous depending on potential usage
     - Fix reviews' sort by columns feature
     - Get number of actually downloaded reviews per request
-    - Possibilty to replay an indexation request by one click
+    - Possibilty to replay an indexation request in one click
 
 ## PS:
 
