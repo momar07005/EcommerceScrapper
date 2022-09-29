@@ -1,4 +1,4 @@
-# EcommerceScrapper
+# AmazonScrapper
 
 ## Features
 
