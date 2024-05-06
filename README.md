@@ -1,4 +1,4 @@
-# AmazonScrapper
+# Scrapper
 
 ## Features
 
@@ -20,22 +20,21 @@
         - Ability to sort per column ❌
         - (bonus) Text search within review texts ✅
         
-  ## Bonuses
    
-    - Retrieve any number of available reviews (multiple of 10) ✅
+- Retrieve any number of available reviews (multiple of 10) ✅
 
-    - Do not retrieve reviews already indexed ✅
-    
-    - Fast indexation time (Configurable) ✅
-    
-    - Pagination for indexation requests and reviews tables ✅
-    
-    - List of indexation requests with details ✅
-    
-    - Partial success status for requests ✅
-    
-    - Filter on indexation requests ✅
-    
+- Do not retrieve reviews already indexed ✅
+
+- Fast indexation time (Configurable) ✅
+
+- Pagination for indexation requests and reviews tables ✅
+
+- List of indexation requests with details ✅
+
+- Partial success status for requests ✅
+
+- Filter on indexation requests ✅
+
     
     
     
@@ -67,7 +66,7 @@
 
 ## PS:
 
-I do believe that code with well named variables and methods does not need comments !
+I do believe that code with well-named variables and methods does not need comments!
 
 ![alt text](https://github.com/momar07005/EcommerceScrapper/blob/master/DemoPictures/RequestCreation.PNG?raw=true)
 
