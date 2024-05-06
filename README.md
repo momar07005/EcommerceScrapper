@@ -17,7 +17,7 @@
 - As a user I want to view the list of all extracted reviews as a table
     - Acceptance criteria
         - Expected columns: Product ASIN, Review Date, Review Title, Review Content, Rating ✅
-        - Ability to sort per column ❌
+        - Ability to sort per column ✅
         - (bonus) Text search within review texts ✅
         
    
